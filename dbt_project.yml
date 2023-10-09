@@ -23,15 +23,40 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+vars:
+  load_date: '1992-01-08'
+  tpch_size: 10 #1, 10, 100, 1000, 10000
 
-# Configuring models
-# Full documentation: https://docs.getdbt.com/docs/configuring-models
-
-# In this example config, we tell dbt to build all models in the example/
-# directory as views. These settings can be overridden in the individual model
-# files using the `{{ config(...) }}` macro.
 models:
   the_office_vault:
-    # Config indicated by + and applies to all files under models/example/
-    example:
+    raw_stage:
       +materialized: view
+      +tags:
+        - 'raw'
+    stage:
+      +materialized: view
+      +tags:
+        - 'stage'
+      +enabled: true
+    raw_vault:
+      +materialized: incremental
+      +tags:
+        - 'raw_vault'
+      hubs:
+        +tags:
+          - 'hub'
+      links:
+        +tags:
+          - 'link'
+      sats:
+        +tags:
+          - 'satellite'
+      t_links:
+        +tags:
+          - 't_link'
+
+
+on-run-end: 
+  - "{{ dbt_readme_logger.log_results_csv() }}"
+  # - "{{ dbt_project_evaluator.print_dbt_project_evaluator_issues() }}"
+  # - "{{ dbt_artifacts.upload_results(results) }}"

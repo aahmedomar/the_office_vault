@@ -1,0 +1,19 @@
+packages:
+   # Package used to date_spine
+  - package: dbt-labs/dbt_utils
+    version: 1.0.0
+
+    # package used to compare two models
+  - package: dbt-labs/audit_helper
+    version: 0.8.0
+
+    # package used to logs information about source, seed, & model nodes to the command line
+  - git: "https://github.com/eon-collective/dbt_readme_helper.git"
+    revision: 0.1.1
+
+    # package used to builds a mart of tables and views describing the project it is installed in
+  - git: "https://github.com/eon-collective/dbt_artifacts_eon.git"
+    revision: 0.2.0
+    
+  - package: Datavault-UK/automate_dv
+    version: 0.9.7
