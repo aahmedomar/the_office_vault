@@ -92,8 +92,6 @@
 
 TODO: Add dbt project Documentation - The purpose/objective of this project.
 
-![Scheme](etc/images/UMM_Objective.png)
-
 [↑](#toc-)
 # Application Functional Overview <a name="dbt_project_components"></a> 
 
@@ -239,22 +237,12 @@ This project produces the following tables in snowflake
 | UMM_EMEA_REF_DATA |                   DATES                   |                                                    |
 
 [↑](#toc-)
-## Data Lineage <a name="dbt_project_data_lineage"></a>
+### Sample Data Lineages
+![Lineages](https://github.com/aahmedomar/the_office_vault/blob/main/resources/lineage.gif)
 
 The full data lineage image isn't reader friendly when outputted to an image as it is too long and too wide. To generate and serve the docs on your machine
 see [dbt Commands: How to Run](#dbt_project_howtorun). *Note: In dbt data lineage diagrams green bubbles are sources and blue bubbles are models.*
 
-[↑](#toc-) 
-### Sample Data Lineages
-TODO: Replace with lineages
-
-**UMM_EMEA_STAGE Data Lineage**
-
-![Scheme](etc/images/umm_emea_stage_lineage.png "UMM_EMEA_STAGE Data Lineage")
-
-**UMM_EMEA_DW Data Lineage**
-
-![Scheme](etc/images/umm_emea_dw_lineage.png "UMM_EMEA_DW Data Lineage")
 
 ## Functional Context <a name="dbt_project_functional_context"></a> [↑](#toc-)
 
@@ -267,37 +255,76 @@ The project structure defined for dbt projects is as defined below:
 
 ```commandline
 .
-├── README.md
-├── analyses
-├── dbt_project.yml
-├── macros
-│   ├── enterprise_macros.sql
-│   ├── generate_hyp_entity.sql
-│   ├── generate_mr_type.sql
-│   ├── generate_mre_key.sql
-│   └── generate_schema.sql
-├── models
-│   ├── 1_stage
-│   │   └── sap
-│   │       ├── _src_sap.yml
-│   │       └── finance
-│   │           └── _config.yml
-│   ├── 2_intermediate
-│   │   └── finance
-│   │       └── _config.yml
-│   ├── 3_marts
-│   │   └── finance
-│   │       └── _config.yml
-│   └── 4_consumption
-│       ├── dashboards
-│       │   └── _config.yml
-│       └── data_science
-│           └── _config.yml
-├── packages.yml
-├── scratchpad
-├── seeds
-├── snapshots
-└── tests
+│   .gitignore
+│   dbt_project.yml
+│   packages.yml
+│   README.md
+│   requirements.txt
+│   
+├───analyses
+       
+├───dbt_packages
+│   ├───audit_helper
+│   ├───automate_dv
+│   ├───dbt_artifacts
+│   ├───dbt_readme_logger
+│   └───dbt_utils
+├───logs
+├───macros
+├───models
+│   │   source.yml
+│   │
+│   ├───raw_stage
+│   │       raw_inventory.sql
+│   │       raw_orders.sql
+│   │       raw_transactions.sql
+│   │
+│   ├───raw_vault
+│   │   ├───hubs
+│   │   │       hub_customer.sql
+│   │   │       hub_lineitem.sql
+│   │   │       hub_nation.sql
+│   │   │       hub_order.sql
+│   │   │       hub_part.sql
+│   │   │       hub_region.sql
+│   │   │       hub_supplier.sql
+│   │   │
+│   │   ├───links
+│   │   │       link_customer_nation.sql
+│   │   │       link_customer_order.sql
+│   │   │       link_inventory.sql
+│   │   │       link_inventory_allocation.sql
+│   │   │       link_nation_region.sql
+│   │   │       link_order_lineitem.sql
+│   │   │       link_supplier_nation.sql
+│   │   │
+│   │   ├───sats
+│   │   │       sat_inv_inventory_details.sql
+│   │   │       sat_inv_part_details.sql
+│   │   │       sat_inv_supplier_details.sql
+│   │   │       sat_inv_supp_nation_details.sql
+│   │   │       sat_inv_supp_region_details.sql
+│   │   │       sat_order_customer_details.sql
+│   │   │       sat_order_cust_nation_details.sql
+│   │   │       sat_order_cust_region_details.sql
+│   │   │       sat_order_lineitem_details.sql
+│   │   │       sat_order_order_details.sql
+│   │   │
+│   │   └───t_links
+│   │           t_link_transactions.sql
+│   │
+│   └───stage
+│           v_stg_inventory.sql
+│           v_stg_orders.sql
+│           v_stg_transactions.sql
+│
+├───resources
+├───seeds
+├───snapshots
+├───target
+│   ├───compiled
+│   └───run
+└───tests
 ```
 This same project tree view above is persisted/versioned under *etc/project_tree_structure.md* - If project changes, please update both markdown documents.
 
